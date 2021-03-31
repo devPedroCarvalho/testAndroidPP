@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">testpp</string>
+    <string name="contacts">Contatos</string>
+    <string name="name_user_empty">Name User</string>
+    <string name="username_empty">/@username</string>
+    <string name="users_image">Imagem do usuário</string>
 </resources>
