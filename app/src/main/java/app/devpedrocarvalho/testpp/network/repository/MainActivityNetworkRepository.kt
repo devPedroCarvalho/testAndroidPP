@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MainActivityRepository @Inject constructor(
+class MainActivityNetworkRepository @Inject constructor(
     private val apiServices: ApiServices
-    ):IMainActivityRepository {
+    ):IMainActivityNetworkRepository {
 
     override fun getListContacts(): Flow<ArrayList<ContactsResponse>> {
        return flow {
