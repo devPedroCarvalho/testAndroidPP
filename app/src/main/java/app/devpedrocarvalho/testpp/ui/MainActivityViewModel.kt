@@ -17,14 +17,14 @@ class MainActivityViewModel @Inject constructor(
     ):ViewModel() {
 
 
-    private val _test= MutableLiveData<ArrayList<ContactsResponse>>()
-    val test: LiveData<ArrayList<ContactsResponse>>
-        get() = _test
+    private val _contactsListLiveData= MutableLiveData<ArrayList<ContactsResponse>>()
+    val contactsListLiveData: LiveData<ArrayList<ContactsResponse>>
+        get() = _contactsListLiveData
 
     fun getContactsList(){
         viewModelScope.launch {
             repository.getListContacts().collect{ contactList ->
-                _test.value = contactList
+                _contactsListLiveData.value = contactList
             }
         }
     }

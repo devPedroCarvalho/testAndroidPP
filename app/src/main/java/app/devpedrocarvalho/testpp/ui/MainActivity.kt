@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        viewModel.test.observe(this, Observer {
+        viewModel.contactsListLiveData.observe(this, Observer {
             it?.let {
                 setUpRecyclerView(it)
             }
