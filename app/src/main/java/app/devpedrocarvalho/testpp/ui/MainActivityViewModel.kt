@@ -62,8 +62,8 @@ class MainActivityViewModel @Inject constructor(
         databaseRepository.getListContactsDatabase().collect { userEntityList ->
 
             if (userEntityList.isNullOrEmpty()) {
-                contactsListLiveData.postValue(Resource.error(data = null, message = "Error list is empty"))
-                Timber.tag(Utils.TAG_TIMBER).v("Error list is empty")
+                contactsListLiveData.postValue(Resource.error(data = null, message = Utils.ERROR_LIST))
+                Timber.tag(Utils.TAG_TIMBER).v( Utils.ERROR_LIST)
 
             } else {
                 val contactResponseList = userEntityList.map {
