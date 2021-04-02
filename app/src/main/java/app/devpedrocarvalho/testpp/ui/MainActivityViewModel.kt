@@ -21,9 +21,7 @@ class MainActivityViewModel @Inject constructor(
         private val databaseRepository: IMainActivityDatabaseRepository
 ) : ViewModel() {
 
-
     var contactsListLiveData: MutableLiveData<Resource<List<ContactsResponse>>> = MutableLiveData()
-
 
     fun getContactsListNetwork() = viewModelScope.launch {
         contactsListLiveData.postValue(Resource.loading(data = null))
@@ -58,13 +56,10 @@ class MainActivityViewModel @Inject constructor(
 
     fun getContactsListDatabase() = viewModelScope.launch {
         contactsListLiveData.postValue(Resource.loading(data = null))
-
         databaseRepository.getListContactsDatabase().collect { userEntityList ->
-
             if (userEntityList.isNullOrEmpty()) {
                 contactsListLiveData.postValue(Resource.error(data = null, message = Utils.ERROR_LIST))
                 Timber.tag(Utils.TAG_TIMBER).v( Utils.ERROR_LIST)
-
             } else {
                 val contactResponseList = userEntityList.map {
                     ContactsResponse(
@@ -78,6 +73,5 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
-
 
 }
