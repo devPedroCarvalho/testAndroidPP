@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface ApiServices {
 
     @GET("/tests/mobdev/users")
-    suspend fun getListContacts(): Response<ArrayList<ContactsResponse>>
+    suspend fun getListContacts(): Response<List<ContactsResponse>>
 
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.widget.Toast
 
 fun isNetworkConnected(context: Context): Boolean {
     var isNetworkConnected = false
@@ -27,4 +28,8 @@ fun isNetworkConnected(context: Context): Boolean {
         }
     }
     return isNetworkConnected
+}
+
+fun showToast(context: Context, messageError:String){
+    Toast.makeText(context, messageError, Toast.LENGTH_LONG).show()
 }

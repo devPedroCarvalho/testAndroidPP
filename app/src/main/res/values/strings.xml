@@ -4,4 +4,5 @@
     <string name="name_user_empty">Name User</string>
     <string name="username_empty">/@username</string>
     <string name="users_image">Imagem do usuário</string>
+    <string name="error_common">ERROR:%1$s</string>
 </resources>
