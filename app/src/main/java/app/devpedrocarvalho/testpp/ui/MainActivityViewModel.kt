@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.collect
 import app.devpedrocarvalho.testpp.network.repository.IMainActivityNetworkRepository
 import app.devpedrocarvalho.testpp.network.response.ContactsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,36 +22,48 @@ class MainActivityViewModel @Inject constructor(
     ):ViewModel() {
 
 
-    private val _contactsListLiveData= MutableLiveData<ArrayList<ContactsResponse>>()
-    val contactsListLiveData: LiveData<ArrayList<ContactsResponse>>
+    private val _contactsListLiveData= MutableLiveData<List<ContactsResponse>>()
+    val contactsListLiveData: LiveData<List<ContactsResponse>>
         get() = _contactsListLiveData
 
     fun getContactsList(){
         viewModelScope.launch {
             networkRepository.getListContacts().collect{ contactList ->
-                contactList.map {
-                   val responseBD = UserEntity(
+                val userEntityList =  contactList.map {
+                   UserEntity(
                             id = it.id,
                             name = it.name,
                             image = it.img,
                             username = it.username
                     )
-                    setContactsListDatabase(responseBD)
                 }
                 _contactsListLiveData.value = contactList
-
+                setContactsListDatabase(userEntityList)
             }
         }
     }
 
 
-    private fun setContactsListDatabase(contactList: UserEntity){
+    private fun setContactsListDatabase(userEntityList: List<UserEntity>){
         viewModelScope.launch {
-            databaseRepository.setListContactsDatabase(contactList)
+            databaseRepository.setListContactsDatabase(userEntityList)
         }
     }
 
-
-
+    fun getContactsListDatabase() {
+        viewModelScope.launch {
+            databaseRepository.getListContactsDatabase().collect { userEntityList ->
+                val contactResponseList =  userEntityList.map {
+                    ContactsResponse(
+                            id = it.id,
+                            name = it.name,
+                            img = it.image,
+                            username = it.username
+                    )
+                }
+                _contactsListLiveData.value = contactResponseList
+            }
+        }
+    }
 
 }

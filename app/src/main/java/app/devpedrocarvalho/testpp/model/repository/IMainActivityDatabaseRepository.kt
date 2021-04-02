@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMainActivityDatabaseRepository {
 
-    //fun getListContactsDatabase(): Flow<List<ContactsResponse>>
+    fun getListContactsDatabase(): Flow<List<UserEntity>>
 
-    fun setListContactsDatabase(userList: UserEntity)
+    fun setListContactsDatabase(userEntityList: List<UserEntity>)
 }

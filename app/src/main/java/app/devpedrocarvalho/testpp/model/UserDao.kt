@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun setContactsListDatabase(userList: UserEntity)
+    suspend fun setContactsListDatabase(userEntityList: List<UserEntity>)
 
     @Query("SELECT * FROM user ")
     fun getContactsListDatabase(): Flow<List<UserEntity>>

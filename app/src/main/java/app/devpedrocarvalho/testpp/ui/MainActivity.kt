@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.devpedrocarvalho.testpp.R
 import app.devpedrocarvalho.testpp.databinding.ActivityMainBinding
+import app.devpedrocarvalho.testpp.utils.isNetworkConnected
 import app.devpedrocarvalho.testpp.network.response.ContactsResponse
 import app.devpedrocarvalho.testpp.ui.adapter.ContactsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,12 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         setupObserver()
-        viewModel.getContactsList()
+
+        if (isNetworkConnected(context = this)){
+            viewModel.getContactsList()
+        }else{
+            viewModel.getContactsListDatabase()
+        }
 
     }
 
@@ -40,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpRecyclerView(list: ArrayList<ContactsResponse>){
+    private fun setUpRecyclerView(list: List<ContactsResponse>){
 
         adapterContacts = ContactsListAdapter(listContacts = list)
         binding.contactsRecyclerView.apply {

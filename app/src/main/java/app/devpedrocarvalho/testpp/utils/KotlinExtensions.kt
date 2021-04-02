@@ -1,16 +1,30 @@
-package app.devpedrocarvalho.testpp
+package app.devpedrocarvalho.testpp.utils
 
-import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Glide
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 
-fun loadImage(imageUrl: String,
-              imageView: ImageView,
-              context: View
-) {
-    Glide.with(context)
-        .load(imageUrl)
-        .error(R.drawable.ic_profile_empty)
-        .circleCrop()
-        .into(imageView)
+fun isNetworkConnected(context: Context): Boolean {
+    var isNetworkConnected = false
+    val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities =
+                connectivityManager.getNetworkCapabilities(network) ?: return false
+        isNetworkConnected = when {
+            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
+    } else {
+        connectivityManager.run {
+            connectivityManager.activeNetworkInfo?.run {
+                isNetworkConnected = isConnected
+            }
+        }
+    }
+    return isNetworkConnected
 }
