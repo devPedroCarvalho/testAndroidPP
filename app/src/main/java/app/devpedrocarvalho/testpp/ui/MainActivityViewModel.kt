@@ -39,7 +39,6 @@ class MainActivityViewModel @Inject constructor(
                     }
                     contactsListLiveData.postValue(Resource.success(data = contactListResponse))
                     setContactsListDatabase(userEntityList)
-
                 }
             } else {
                 Timber.tag(Utils.TAG_TIMBER).v("${response.raw().networkResponse()?.request()?.url()} ${response.code()} ${response.body()} ${response.message()}")
