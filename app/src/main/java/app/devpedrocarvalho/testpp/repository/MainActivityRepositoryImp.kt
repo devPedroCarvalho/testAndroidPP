@@ -1,29 +1,35 @@
-package app.devpedrocarvalho.testpp.model.repository
+package app.devpedrocarvalho.testpp.repository
 
 import app.devpedrocarvalho.testpp.model.UserDao
 import app.devpedrocarvalho.testpp.model.UserEntity
+import app.devpedrocarvalho.testpp.network.ApiServices
 import app.devpedrocarvalho.testpp.network.response.ContactsResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
+import retrofit2.Response
 import javax.inject.Inject
 
-class MainActivityDatabaseRepository@Inject constructor(
-        private val userDao: UserDao
-): IMainActivityDatabaseRepository {
+class MainActivityRepositoryImp @Inject constructor(
+  private val userDao: UserDao,
+  private val apiServices: ApiServices
+): MainActivityRepository{
 
+    override fun getListContacts(): Flow<Response<List<ContactsResponse>>> {
+        return flow {
+            val apiService = apiServices.getListContacts()
+            emit(apiService)
+        }.flowOn(Dispatchers.IO)
+    }
 
     override fun getListContactsDatabase(): Flow<List<UserEntity>> = userDao.getContactsListDatabase()
 
     override fun setListContactsDatabase(userEntityList: List<UserEntity>) {
         runBlocking {
-            withContext(IO){
+            withContext(Dispatchers.IO){
                 userDao.setContactsListDatabase(userEntityList = userEntityList)
             }
         }

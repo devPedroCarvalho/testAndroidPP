@@ -36,12 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         setupObserver()
 
-        if (isNetworkConnected(context = this)) {
-            viewModel.getContactsListNetwork()
-        } else {
-            viewModel.getContactsListDatabase()
-        }
-
+        viewModel.loadData(this)
     }
 
     private fun setupObserver() {
